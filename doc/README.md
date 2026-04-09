@@ -1,6 +1,6 @@
-# 🚀 Fight - 释放您的枪灵
+# 🚀 Dust - 探寻宝藏方位
 
-[![Version](https://img.shields.io/badge/Version-1.1_Stable-00d2ff.svg)](#)  [![License](https://img.shields.io/badge/License-Protected-orange.svg)](#)  [![Platform](https://img.shields.io/badge/Platform-Windows_10/11-blue.svg)](#)
+[![Version](https://img.shields.io/badge/Version-1.45_Stable-00d2ff.svg)](#)  [![License](https://img.shields.io/badge/License-Protected-orange.svg)](#)  [![Platform](https://img.shields.io/badge/Platform-Windows_10/11-blue.svg)](#)
 
 **Fight** 是一款专为极致视觉交互而生的系统插件。基于自研毫秒级响应引擎，为用户提供流畅、稳定且极具未来感的数字化体验。
 
@@ -24,12 +24,11 @@
 
 ### 2. 安装步骤
 1.  前往官网点击 `获取客户端` 下载最新版压缩包。
-2.  将文件解压至 **非系统盘**（如 D:\Fight\）目录。
-3.  右键点击 `Fight.exe`，选择 **“以管理员身份运行”**。
+2.  将文件解压至 **非系统盘**（如 D:\Dust\）目录。
+3.  右键点击 `Dust.exe`，选择 **“以管理员身份运行”**。
 
 ### 3. 使用说明
 * **激活**：首次启动请粘贴您从卡网获取的激活码。
-* **注入**：默认热键为键盘上的 `Ins` 键。
 * **呼出/隐藏**：默认热键为键盘上的 `Home` 键。
 * **配置**：菜单呼出后，可根据硬件水平调节“绘制渲染”与“内存功能”。
 
@@ -40,23 +39,21 @@
 > **Q: 为什么打开程序后没有反应？** 
 > **A:** 请检查是否关闭了第三方安全拦截软件，并确保已赋予程序管理员权限。
 
-> **Q: 没有Ins Home键怎么办？** 
+> **Q: 没有Home键怎么办？** 
 > **A:** 同时按下Ctrl Win + O可以呼出虚拟键盘。
 
 > **Q: 更新需要重新下载吗？** 
-> **A:** Fight 支持云端自动推送更新，通常只需重启程序即可完成热升级。
+> **A:** Dust 支持云端自动推送更新，通常只需重启程序即可完成热升级。
 
 > **Q: 打开辅助后游戏黑屏？** 
 > **A:** 打开Win设置 `系统`-`屏幕`-`显示卡`-`窗口化游戏优化` 设置为关闭。
-
-> **Q: 注入成功后不显示界面？** 
-> **A:** 多按下几次 `HOME` 键或者检查本地时间是否为北京时间，确保是 `管理员运行`。
+> 
 ---
 
 ## 📡 官方渠道
 
 * **技术支持**：7×24h 在线卡网中心。
-* **官方主页**：[访问 Fight 官网](https://fight.yun/)
+* **官方主页**：[访问 Dust 官网](https://dust.yun/)
 * **更新日志**：请关注群内通知。
 
 ---
