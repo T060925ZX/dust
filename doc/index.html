@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Fight - 官方使用指南</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 引入 Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 引入 Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;800&family=Noto+Sans+SC:wght@300;500;900&display=swap" rel="stylesheet">
+    <!-- 引入 Marked 解析器 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --primary: #00d2ff;
+            --secondary: #3a7bd5;
+            --accent: #6366f1;
+            --bg-color: #030508;
+            --card-bg: rgba(10, 12, 18, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-dim: rgba(255, 255, 255, 0.5);
+            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', 'Noto Sans SC', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* --- 动态高端背景系统 --- */
+        .bg-system {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .gradient-sphere {
+            position: absolute;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(0, 210, 255, 0.08) 0%, transparent 70%);
+            top: -20%;
+            left: -10%;
+            filter: blur(80px);
+            animation: move 20s infinite alternate;
+        }
+
+        .gradient-sphere-2 {
+            position: absolute;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+            bottom: -10%;
+            right: -5%;
+            filter: blur(80px);
+            animation: move 25s infinite alternate-reverse;
+        }
+
+        @keyframes move {
+            from { transform: translate(0, 0); }
+            to { transform: translate(10%, 10%); }
+        }
+
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(ellipse at center, black, transparent 80%);
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* --- 顶部导航与进度条 --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(3, 5, 8, 0.7);
+        }
+
+        .nav-progress {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), var(--accent));
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.4s var(--ease-out-expo);
+            padding: 8px 16px;
+            border-radius: 100px;
+            border: 1px solid transparent;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+            background: rgba(0, 210, 255, 0.05);
+            border-color: rgba(0, 210, 255, 0.2);
+            transform: translateX(-5px);
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-size: 16px;
+            background: linear-gradient(to right, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- 文档主体 --- */
+        .doc-wrapper {
+            max-width: 900px;
+            margin: 120px auto;
+            padding: 0 24px;
+            position: relative;
+        }
+
+        .doc-card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            padding: 80px 60px;
+            backdrop-filter: blur(30px);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.4),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            animation: cardEntrance 1.2s var(--ease-out-expo);
+        }
+
+        @keyframes cardEntrance {
+            from { opacity: 0; transform: translateY(40px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* --- Markdown 深度定制渲染 --- */
+        #content {
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        #content h1 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 50px;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        #content h2 {
+            font-size: 28px;
+            margin: 60px 0 25px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+        }
+
+        #content h2::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--glass-border), transparent);
+            margin-left: 20px;
+        }
+
+        #content p {
+            margin-bottom: 24px;
+            font-size: 17px;
+            color: var(--text-dim);
+        }
+
+        #content code {
+            font-family: 'JetBrains Mono', 'Consolas', monospace;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            border: 1px solid rgba(0, 210, 255, 0.2);
+        }
+
+        #content pre {
+            background: #0a0c12;
+            padding: 30px;
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            overflow-x: auto;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        #content pre::before {
+            content: 'CODE';
+            position: absolute;
+            top: 0;
+            right: 20px;
+            font-size: 10px;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+        }
+
+        #content blockquote {
+            border-left: 4px solid var(--primary);
+            background: linear-gradient(90deg, rgba(0, 210, 255, 0.05), transparent);
+            padding: 25px 35px;
+            margin: 40px 0;
+            border-radius: 0 20px 20px 0;
+            font-style: italic;
+            color: #aaa;
+        }
+
+        #content ul {
+            list-style: none;
+            margin: 25px 0;
+        }
+
+        #content li {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 15px;
+            color: var(--text-dim);
+        }
+
+        #content li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        /* 表格样式美化 */
+        #content table {
+            width: 100%;
+            border-spacing: 0;
+            margin: 40px 0;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+        }
+
+        #content th {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 18px;
+            text-align: left;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary);
+        }
+
+        #content td {
+            padding: 18px;
+            border-top: 1px solid var(--glass-border);
+            font-size: 15px;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            nav { padding: 15px 20px; }
+            .doc-wrapper { margin: 100px auto; }
+            .doc-card { padding: 40px 24px; border-radius: 24px; }
+            #content h1 { font-size: 32px; }
+        }
+
+        /* 骨架屏加载动画 */
+        .loading-shimmer {
+            height: 20px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    </style>
+</head>
+<body>
+
+    <!-- 高端背景系统 -->
+    <div class="bg-system">
+        <div class="gradient-sphere"></div>
+        <div class="gradient-sphere-2"></div>
+        <div class="grid-overlay"></div>
+        <div id="particles-js"></div>
+    </div>
+
+    <!-- 导航 -->
+    <nav>
+        <div class="nav-progress" id="progressBar"></div>
+        <!-- 已修改跳转路径至 ../# -->
+        <a href="../#" class="back-link">
+            <i class="fa-solid fa-chevron-left"></i> <span>返回中心</span>
+        </a>
+        <div class="nav-logo">Fight Protocol</div>
+        <div style="width: 80px;"></div>
+    </nav>
+
+    <div class="doc-wrapper">
+        <div class="doc-card">
+            <div id="content">
+                <!-- 预加载骨架 -->
+                <div style="width: 60%; height: 40px; margin-bottom: 40px;" class="loading-shimmer"></div>
+                <div style="width: 100%;" class="loading-shimmer"></div>
+                <div style="width: 90%;" class="loading-shimmer"></div>
+                <div style="width: 95%;" class="loading-shimmer"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 脚本部分 -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        // 粒子背景配置
+        particlesJS('particles-js', {
+            "particles": {
+                "number": { "value": 30, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#00d2ff" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.2, "random": true },
+                "size": { "value": 2, "random": true },
+                "line_linked": { "enable": true, "distance": 150, "color": "#00d2ff", "opacity": 0.05, "width": 1 },
+                "move": { "enable": true, "speed": 1, "direction": "none", "out_mode": "out" }
+            },
+            "interactivity": {
+                "events": { "onhover": { "enable": true, "mode": "grab" } }
+            }
+        });
+
+        // 阅读进度条监听
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+        };
+
+        // 加载并渲染 Markdown
+        async function fetchDocs() {
+            const contentEl = document.getElementById('content');
+            try {
+                const [response] = await Promise.all([
+                    fetch('README.md'),
+                    new Promise(resolve => setTimeout(resolve, 600))
+                ]);
+
+                if (!response.ok) throw new Error('File not found');
+                const text = await response.text();
+
+                marked.setOptions({
+                    gfm: true,
+                    breaks: true,
+                    headerIds: true
+                });
+
+                contentEl.style.opacity = '0';
+                contentEl.style.transform = 'translateY(10px)';
+                
+                setTimeout(() => {
+                    contentEl.innerHTML = marked.parse(text);
+                    contentEl.style.transition = 'all 0.8s var(--ease-out-expo)';
+                    contentEl.style.opacity = '1';
+                    contentEl.style.transform = 'translateY(0)';
+                }, 100);
+
+            } catch (err) {
+                contentEl.innerHTML = `
+                    <div style="text-align: center; padding: 60px 0;">
+                        <div style="display: inline-block; padding: 20px; border-radius: 50%; background: rgba(255,78,80,0.1); margin-bottom: 24px;">
+                            <i class="fa-solid fa-circle-exclamation" style="font-size: 40px; color: #ff4e50;"></i>
+                        </div>
+                        <h2 style="color: #fff; margin-bottom: 12px; background: none;">少女未响应你的祈祷...</h2>
+                        <p>请确保 <code>README.md</code> 放置于网站根目录下。</p>
+                        <a href="../#" class="back-link" style="justify-content: center; width: fit-content; margin: 30px auto 0; color: var(--primary);">重新连接</a>
+                    </div>
+                `;
+            }
+        }
+
+        window.onload = fetchDocs;
+    </script>
+</body>
+</html>
